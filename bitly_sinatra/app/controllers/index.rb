@@ -17,7 +17,7 @@ post '/urls' do
   @url = Url.new(long_url: long_url, short_url: @short_url)
   
   if @url.save
-    p @short_url
+    @short_url
     redirect to("/")
   else
     @urls =  Url.all    
@@ -44,7 +44,18 @@ post '/urls' do
 end
 
 get '/:short_url' do
-  p short_url = params[:short_url]
+
+  short_url = params[:short_url]
   url =  Url.find_by(short_url: short_url)
+  visitas = url.visits + 1
+  url.update(visits: visitas)
   redirect to(url.long_url)
+
 end
+
+
+
+
+
+
+
